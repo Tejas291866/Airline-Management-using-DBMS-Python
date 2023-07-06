@@ -1,0 +1,83 @@
+CREATE TABLE Aeroplane (
+  Callsign char(10) NOT NULL PRIMARY KEY,
+  Airline_ID int unsigned,
+  Model char(10) NOT NULL,
+  Manufacturer char(20)
+);
+
+
+CREATE TABLE Airline (
+  Airline_ID int unsigned NOT NULL PRIMARY KEY,
+  Name char(60) NOT NULL,
+  Home_Base char(100) NOT NULL,
+  Phone_NO int unsigned NOT NULL,
+  email char(50) NOT NULL
+);
+
+
+CREATE TABLE Boarding_Pass (
+  Pass_ID int unsigned NOT NULL PRIMARY KEY,
+  Flight_NO int unsigned,
+  Passenger_ID int unsigned,
+  Ticket_ID int unsigned,
+  Gate char(5) NOT NULL,
+  Check_in char(10),
+  Boarding char(20),
+  FOREIGN KEY (Flight_NO) REFERENCES Flight(Flight_NO),
+  FOREIGN KEY (Passenger_ID) REFERENCES Passenger(Passenger_ID),
+  FOREIGN KEY (Ticket_ID) REFERENCES Ticket(Ticket_ID)
+);
+
+
+CREATE TABLE Cabin_Crew (
+  Crew_ID char(20) NOT NULL PRIMARY KEY,
+  Flight_NO int unsigned NOT NULL,
+  First_name char(20) NOT NULL,
+  Last_name char(20),
+  Contact_NO int NOT NULL,
+  FOREIGN KEY (Flight_NO) REFERENCES Flight(Flight_NO)
+);
+
+
+CREATE TABLE Flight (
+  Flight_NO int unsigned NOT NULL PRIMARY KEY,
+  Callsign char(10),
+  Departure char(100),
+  Arrival char(100),
+  Status char(10)
+);
+
+
+CREATE TABLE Passenger (
+  Passenger_ID int unsigned NOT NULL PRIMARY KEY,
+  First_Name char(20) NOT NULL,
+  Last_Name char(20) NOT NULL,
+  Email char(50),
+  Contact_NO int NOT NULL,
+  Frequent_Flyer_ID int unsigned,
+  FOREIGN KEY (Frequent_Flyer_ID) REFERENCES Passenger(Passenger_ID)
+);
+
+
+CREATE TABLE Pilot (
+  Pilot_liscense char(20) NOT NULL PRIMARY KEY,
+  Flight_NO int unsigned,
+  First_name char(20) NOT NULL,
+  Last_name char(20),
+  Contact_NO int,
+  Seniority char(20),
+  FOREIGN KEY (Flight_NO) REFERENCES Flight(Flight_NO)
+);
+
+
+CREATE TABLE Ticket (
+  Ticket_ID int unsigned NOT NULL PRIMARY KEY,
+  Passenger_ID int unsigned,
+  Flight_NO int unsigned,
+  Departure_From char(30) NOT NULL,
+  Destination char(30) NOT NULL,
+  Price_USD int unsigned NOT NULL,
+  Food_preference char(10),
+  FOREIGN KEY (Passenger_ID) REFERENCES Passenger(Passenger_ID),
+  FOREIGN KEY (Flight_NO) REFERENCES Flight(Flight_NO)
+);
